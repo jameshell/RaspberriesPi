@@ -66,12 +66,13 @@ public class HandlePos implements Runnable{
               Response=Response.replace("}", "");
               Response=Response.replaceAll("\\s+","");
               String Arreglo[]=Response.split(",");
-              /*float[] fs=new float[8];
+              float[] fs=new float[8];
               for (int i = 0; i < Arreglo.length; i++) {
                   String[] SubStri=Arreglo[i].split(":");
                   fs[i]=Float.valueOf(SubStri[1]);
               }
-              RaspPi pi=new RaspPi(fs[0],fs[1],fs[2],fs[3],fs[4],fs[5],fs[6],fs[7]);*/
+              RaspPi pi=new RaspPi(fs[0],fs[1],fs[2],fs[3],fs[4],fs[5],fs[6],fs[7]);
+              Sql(pi);
           }
           in.close();
           inputFromClient.close();
@@ -91,22 +92,22 @@ public class HandlePos implements Runnable{
     public int getDirecciony() {
         return direcciony;
     }
-    public boolean Sql(RaspPi ed){
+    public boolean Sql(RaspPi pi){
         String url = "jdbc:mysql://localhost:3306/Edison";
         String username = "root";
         String password = "root";
         try (Connection connection = (Connection) DriverManager.getConnection(url, username, password)) {
-            String query = " insert into DatosPi (oosx,posy, rssi_b1,rssi_b2,rssi_b3,rssi_b4,rssi_b5,rssi_b6)"
+            String query = " insert into DatosPi (posx,posy, rssi_b1,rssi_b2,rssi_b3,rssi_b4,rssi_b5,rssi_b6)"
         + " values (?, ?,?,?,?,?,?,?)";
         PreparedStatement preparedStmt = connection.prepareStatement(query);
-        preparedStmt.setFloat(1, ed.posx);
-        preparedStmt.setFloat(2, ed.posy);
-        preparedStmt.setFloat(3, ed.rssi_b1);
-        preparedStmt.setFloat(4, ed.rssi_b2);
-        preparedStmt.setFloat(5, ed.rssi_b3);
-        preparedStmt.setFloat(6, ed.rssi_b4);
-        preparedStmt.setFloat(7, ed.rssi_b5);
-        preparedStmt.setFloat(8, ed.rssi_b6);
+        preparedStmt.setFloat(1, pi.posx);
+        preparedStmt.setFloat(2, pi.posy);
+        preparedStmt.setFloat(3, pi.rssi_b1);
+        preparedStmt.setFloat(4, pi.rssi_b2);
+        preparedStmt.setFloat(5, pi.rssi_b3);
+        preparedStmt.setFloat(6, pi.rssi_b4);
+        preparedStmt.setFloat(7, pi.rssi_b5);
+        preparedStmt.setFloat(8, pi.rssi_b6);
         preparedStmt.execute();
         connection.close();
         System.out.println("Database connected!");

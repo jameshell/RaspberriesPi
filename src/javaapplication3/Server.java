@@ -29,10 +29,6 @@ public class Server {
         ServerSocket serverSocket;
         serverSocket = new ServerSocket(5002);
         Thread t=new Thread(new HandlePos(serverSocket,area));    
-        t.start();
-        
-
-        
-        
+        t.start();   
     }
 }
